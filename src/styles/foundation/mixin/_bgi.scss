@@ -1,0 +1,9 @@
+@mixin bgi($url) {
+  // .envのIMAGE_URLを確認し、入力があれば書き換える
+  @if ($IMAGE_URL == "") {
+    $img: "../../assets/images/";
+    background-image: url($img + $url);
+  } @else {
+    background-image: url($IMAGE_URL + $url);
+  }
+}

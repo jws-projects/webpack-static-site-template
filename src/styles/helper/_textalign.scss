@@ -1,0 +1,15 @@
+.hp_tar {
+  text-align: right;
+}
+.hp_tac {
+  text-align: center;
+}
+.hp_tal {
+  text-align: left;
+}
+.hp_tac-tal {
+  text-align: center;
+  @include media("<tab") {
+    text-align: left;
+  }
+}
