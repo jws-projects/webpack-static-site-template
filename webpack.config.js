@@ -112,10 +112,10 @@ module.exports = {
           [
             'mozjpeg',
             {
-              quality: 80,
+              quality: 95,
             },
           ],
-          ['pngquant', { quality: [0.7, 0.85] }],
+          ['pngquant', { quality: [0.9, 0.95] }],
         ],
       },
     }),

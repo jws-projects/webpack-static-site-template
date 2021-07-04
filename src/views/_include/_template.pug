@@ -13,10 +13,11 @@ html(lang="ja")
     +head(page,meta)
     include ./common/_gahead
   body(class=page)
+    include ./common/_gabody
     .ly_wrap
-      header.ly_header
+      header
         include ./common/_header
       main.ly_main
         block content
-      footer.ly_footer
+      footer
         include ./common/_footer
