@@ -1,11 +1,11 @@
 $pc-design-width: 1440;
 $sp-design-width: 375; // SPデザインの幅を設定
 
-@function calcvw($num, $width: $sp-design-width) {
+@function vw($num, $width: $sp-design-width) {
   @return (math.div(1vw * $num, $width * 100));
 }
 
-@function calcvwPC($num, $width: $pc-design-width) {
+@function vwPC($num, $width: $pc-design-width) {
   @return (math.div(1vw * $num, $width * 100));
 }
 
@@ -13,7 +13,7 @@ $sp-design-width: 375; // SPデザインの幅を設定
   @return (math.div(1% * $num, $width * 100));
 }
 
-@function calcvwPerPC($num, $width: $pc-design-width) {
+@function vwPerPC($num, $width: $pc-design-width) {
   @return (math.div(1% * $num, $width * 100));
 }
 
