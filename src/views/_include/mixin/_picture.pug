@@ -1,0 +1,28 @@
+//-
+  options
+    path: 'ファイルパス',
+    name: 'ファイル名(拡張子なし。PCと画像を出し分ける場合はSPのファイル名)',
+    type: '元の拡張子',
+    sp: 'SPのファイル名(拡張子なし。オプション)',
+    alt: 'alt内容(オプション)'
+mixin picture(options)
+  - options = options || {};
+  picture
+    if(!options.sp)
+      source(type="image/webp" srcset=`${img}${options.path}${options.name}.webp`)
+    else
+      source(
+        type="image/webp"
+        media="(min-width:768px)"
+        srcset=`${img}${options.path}${options.name}.webp`
+      )
+      source(
+        type="image/webp"
+        media="(max-width:767px)"
+        srcset=`${img}${options.path}${options.sp}.webp`
+      )
+      source(
+        media="(min-width:768px)"
+        srcset=`${img}${options.path}${options.name}.${options.type}`
+      )
+    img(src=`${img}${options.path}${options.name}.${options.type}` alt=(options.alt || ''))

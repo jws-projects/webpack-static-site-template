@@ -4,6 +4,7 @@
     $img: "../../assets/images/";
     background-image: url($img + $url);
   } @else {
-    background-image: url($IMAGE_URL + $url);
+    $img: "assets/images/";
+    background-image: url($IMAGE_URL + $img + $url);
   }
 }

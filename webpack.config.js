@@ -5,12 +5,14 @@ const glob = require('glob');
 const webpack = require('webpack');
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
+const enabledSourceMap = process.env.NODE_ENV !== 'production';
 
 const IMAGE_URL = process.env.IMAGE_URL;
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
@@ -98,6 +100,21 @@ module.exports = {
       chunkFilename: 'assets/css/[id].css',
     }),
 
+    new ImageminWebpWebpackPlugin({
+      config: [
+        {
+          test: /\.(jpe?g|png)/,
+          options: {
+            quality: 75,
+          },
+        },
+      ],
+      overrideExtension: true,
+      detailedLogs: false,
+      silent: false,
+      strict: true,
+    }),
+
     new ImageMinimizerPlugin({
       minimizerOptions: {
         plugins: [
@@ -182,6 +199,7 @@ module.exports = {
               sassOptions: {
                 fiber: require('fibers'),
               },
+              sourceMap: enabledSourceMap,
             },
           },
           {
