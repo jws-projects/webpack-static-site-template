@@ -4,25 +4,53 @@
     name: 'ファイル名(拡張子なし。PCと画像を出し分ける場合はSPのファイル名)',
     type: '元の拡張子',
     sp: 'SPのファイル名(拡張子なし。オプション)',
-    alt: 'alt内容(オプション)'
+    alt: 'alt内容(オプション)',
+    pcw: 'pcのwidth',
+    pch: 'pcのheight',
+    spw: 'spのwidth',
+    sph: 'spのheight',
+
 mixin picture(options)
   - options = options || {};
   picture
     if(!options.sp)
-      source(type="image/webp" srcset=`${img}${options.path}${options.name}.webp`)
+      source(
+        type="image/webp"
+        data-srcset=`${img}${options.path}${options.name}.webp`
+        data-aspectratio=`${options.pcw}/${options.pch}`
+        width=`${options.pcw}`
+        height=`${options.pch}`
+      )
     else
       source(
         type="image/webp"
         media="(min-width:768px)"
-        srcset=`${img}${options.path}${options.name}.webp`
+        data-srcset=`${img}${options.path}${options.name}.webp`
+        data-aspectratio=`${options.pcw}/${options.pch}`
+        width=`${options.pcw}`
+        height=`${options.pch}`
       )
       source(
         type="image/webp"
         media="(max-width:767px)"
-        srcset=`${img}${options.path}${options.sp}.webp`
+        data-srcset=`${img}${options.path}${options.sp}.webp`
+        data-aspectratio=`${options.spw}/${options.sph}`
+        width=`${options.spw}`
+        height=`${options.sph}`
       )
       source(
         media="(min-width:768px)"
-        srcset=`${img}${options.path}${options.name}.${options.type}`
+        data-srcset=`${img}${options.path}${options.name}.${options.type}`
+        data-aspectratio=`${options.pcw}/${options.pch}`
+        width=`${options.pcw}`
+        height=`${options.pch}`
       )
-    img(src=`${img}${options.path}${options.name}.${options.type}` alt=(options.alt || ''))
+    img(
+      class="lazyload"
+      src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7"
+      data-src=`${img}${options.path}${options.name}.${options.type}`
+      data-aspectratio=`${options.pcw}/${options.pch}`
+      alt=(options.alt || '')
+      width=`${options.pcw}`
+      height=`${options.pch}`
+    )

@@ -1,11 +1,16 @@
 import 'babel-polyfill';
 import imagesLoaded from 'imagesloaded';
+import 'lazysizes';
+import 'lazysizes/plugins/aspectratio/ls.aspectratio';
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
+import 'lazysizes/plugins/unveilhooks/ls.unveilhooks';
 import component from './components/component';
+import ua from './util/userAgent';
 
 const elm = document.querySelector('body');
 
 const loadScript = async () => {
-  console.log('loadScript');
+  ua.init();
 };
 
 const afterLoadScript = async () => {
