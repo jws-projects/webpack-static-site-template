@@ -14,6 +14,10 @@ body {
   box-sizing: border-box;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  &::after,
+  &::before {
+    box-sizing: border-box;
+  }
 }
 ul,
 ol {
@@ -29,6 +33,11 @@ a[href^="tel:"] {
 img {
   max-width: 100%;
   vertical-align: bottom;
+  // width: 100%;
+  height: auto;
+  &.lazyload {
+    // width: 100%;
+  }
 }
 i,
 em,
