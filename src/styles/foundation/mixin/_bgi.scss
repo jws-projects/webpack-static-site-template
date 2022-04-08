@@ -2,10 +2,10 @@
   // .envのIMAGE_URLを確認し、入力があれば書き換える
   @if ($IMAGE_URL == "") {
     $img: "../../assets/images/";
-    background-image: url(#{$img}.#{$url});
+    background-image: url(#{$img}#{$url});
   } @else {
     $img: "assets/images/";
-    background-image: url(#{$IMAGE_URL}.#{$img}.#{$url});
+    background-image: url(#{$IMAGE_URL}#{$img}#{$url});
   }
 }
 

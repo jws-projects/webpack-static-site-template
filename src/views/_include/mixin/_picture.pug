@@ -13,44 +13,29 @@
 mixin picture(options)
   - pcSize = 768
   - options = options || {};
+  //- picture
+  //-   if(options.sp)
+  //-     source(
+  //-       media=`(max-width:${pcSize - 1}px)`
+  //-       data-srcset=`${img}${options.sp}.${options.type}`
+  //-       data-aspect-ratio=`${options.spw}/${options.sph}`
+  //-     )
+  //-   img(
+  //-     class="lazyload"
+  //-     src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7"
+  //-     data-src=`${img}${options.name}.${options.type}`
+  //-     data-aspect-ratio=`${options.pcw}/${options.pch}`
+  //-     alt=(options.alt || '')
+  //-   )
   picture
-    if(!options.sp)
+    if(options.sp)
       source(
-        type="image/webp"
-        data-srcset=`${img}${options.path}${options.name}.webp`
-        data-aspectratio=`${options.pcw}/${options.pch}`
-        width=options.pcw
-        height=options.pch
-      )
-    else
-      source(
-        type="image/webp"
-        media=`(min-width:${pcSize}px)`
-        data-srcset=`${img}${options.path}${options.name}.webp`
-        data-aspectratio=`${options.pcw}/${options.pch}`
-        width=options.pcw
-        height=options.pch
-      )
-      source(
-        type="image/webp"
         media=`(max-width:${pcSize - 1}px)`
-        data-srcset=`${img}${options.path}${options.sp}.webp`
-        data-aspectratio=`${options.spw}/${options.sph}`
-      )
-      source(
-        media=`(min-width:${pcSize}px)`
-        data-srcset=`${img}${options.path}${options.name}.${options.type}`
-        data-aspectratio=`${options.pcw}/${options.pch}`
-        width=options.pcw
-        height=options.pch
+        srcset=`${img}${options.sp}.${options.type}`
+        aspect-ratio=`${options.spw}/${options.sph}`
       )
     img(
-      class="lazyload"
-      src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7"
-      data-src=`${img}${options.path}${options.name}.${options.type}`
-      data-aspectratio=`${options.pcw}/${options.pch}`
-      data-sizes="auto"
-      width=options.pcw
-      height=options.pch
+      src=`${img}${options.name}.${options.type}`
+      aspect-ratio=`${options.pcw}/${options.pch}`
       alt=(options.alt || '')
     )
