@@ -61,8 +61,13 @@ module.exports = {
   devtool: IS_DEVELOPMENT ? 'source-map' : false,
 
   devServer: {
-    contentBase: '/public/',
-    writeToDisk: true,
+    open: true,
+    static: {
+      directory: path.resolve(__dirname, 'public'),
+    },
+    devMiddleware: {
+      writeToDisk: true,
+    },
   },
 
   output: {
@@ -100,42 +105,42 @@ module.exports = {
       chunkFilename: 'assets/css/[id].css',
     }),
 
-    new ImageminWebpWebpackPlugin({
-      config: [
-        {
-          test: /\.(jpe?g|png)/,
-          options: {
-            quality: 75,
-          },
-        },
-      ],
-      overrideExtension: true,
-      detailedLogs: false,
-      silent: false,
-      strict: true,
-    }),
+    // new ImageminWebpWebpackPlugin({
+    //   config: [
+    //     {
+    //       test: /\.(jpe?g|png)/,
+    //       options: {
+    //         quality: 75,
+    //       },
+    //     },
+    //   ],
+    //   overrideExtension: true,
+    //   detailedLogs: false,
+    //   silent: false,
+    //   strict: true,
+    // }),
 
-    new ImageMinimizerPlugin({
-      minimizerOptions: {
-        plugins: [
-          [
-            'gifsicle',
-            {
-              interlaced: false,
-              optimizationLevel: 1,
-              colors: 256,
-            },
-          ],
-          [
-            'mozjpeg',
-            {
-              quality: 95,
-            },
-          ],
-          ['pngquant', { quality: [0.9, 0.95] }],
-        ],
-      },
-    }),
+    // new ImageMinimizerPlugin({
+    //   minimizerOptions: {
+    //     plugins: [
+    //       [
+    //         'gifsicle',
+    //         {
+    //           interlaced: false,
+    //           optimizationLevel: 1,
+    //           colors: 256,
+    //         },
+    //       ],
+    //       [
+    //         'mozjpeg',
+    //         {
+    //           quality: 95,
+    //         },
+    //       ],
+    //       ['pngquant', { quality: [0.9, 0.95] }],
+    //     ],
+    //   },
+    // }),
 
     ...templates,
     new HtmlWebpackPugPlugin(),
@@ -156,7 +161,7 @@ module.exports = {
         test: /\.pug$/,
         use: [
           {
-            loader: 'pug-loader',
+            loader: 'pug3-loader',
             options: {
               self: true,
             },
@@ -197,7 +202,9 @@ module.exports = {
               additionalData: '$IMAGE_URL: "' + IMAGE_URL + '";',
               implementation: require('sass'),
               sassOptions: {
-                fiber: require('fibers'),
+                // fiber: require('fibers'),
+                charset: true,
+                outputStyle: 'compressed',
               },
               sourceMap: enabledSourceMap,
             },
@@ -242,6 +249,32 @@ module.exports = {
 
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [
+      new TerserPlugin(),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: [
+              [
+                'gifsicle',
+                {
+                  interlaced: false,
+                  optimizationLevel: 1,
+                  colors: 256,
+                },
+              ],
+              [
+                'mozjpeg',
+                {
+                  quality: 95,
+                },
+              ],
+              ['pngquant', { quality: [0.9, 0.95] }],
+            ],
+          },
+        },
+      }),
+    ],
   },
 };
