@@ -6,5 +6,36 @@
   } @else {
     $img: "assets/images/";
     background-image: url(#{$IMAGE_URL}#{$img}#{$url});
+<<<<<<< HEAD
+=======
+  }
+}
+
+// ## webp classes
+$noWebpClassName: ".ua-ie";
+
+// $selector にする background-image で、webp を出し分ける
+// --------------------------------------------------------
+// $selector      {string} css セレクタ (default: jpg)
+// $filePath      {string} 背景画像ファイルパス
+// $fileExtension {string} 背景画像拡張子
+@mixin webpBgi($filePath, $fileExtension: "jpg") {
+  @if ($IMAGE_URL == "") {
+    $img: "../../assets/images/";
+    #{$noWebpClassName} & {
+      background-image: url(#{$img}#{$filePath}.#{$fileExtension});
+    }
+    & {
+      background-image: url(#{$img}#{$filePath}.webp);
+    }
+  } @else {
+    $img: "assets/images/";
+    & {
+      background-image: url(#{$IMAGE_URL}#{$img}#{$filePath}.#{$fileExtension});
+    }
+    #{$webpClassName} & {
+      background-image: url(#{$IMAGE_URL}#{$img}#{$filePath}.webp);
+    }
+>>>>>>> b18d259aa47284ff805212b26c3d79ff994fb362
   }
 }

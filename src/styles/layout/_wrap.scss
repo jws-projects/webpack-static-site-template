@@ -1,2 +1,7 @@
 .ly_wrap {
+  position: relative;
+  height: 100%;
+  @include media("<tab") {
+    overflow: hidden;
+  }
 }
