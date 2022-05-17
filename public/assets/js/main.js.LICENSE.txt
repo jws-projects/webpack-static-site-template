@@ -33,6 +33,8 @@
 
 /*! ../../modules/core.regexp.escape */
 
+/*! ../../node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */
+
 /*! ../modules/logger/index.js */
 
 /*! ../utils/log.js */
@@ -722,8 +724,6 @@
 /*! ./modules/web.timers */
 
 /*! ./named-references */
-
-/*! ./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */
 
 /*! ./node_modules/webpack-dev-server/client/clients/WebSocketClient.js */
 
@@ -2274,5 +2274,5 @@
   \*********************************************************************************/
 
 /*!********************************************************************************************************************************************!*\
-  !*** ./node_modules/webpack-dev-server/client/index.js?protocol=ws%3A&hostname=0.0.0.0&port=8080&pathname=%2Fws&logging=info&reconnect=10 ***!
+  !*** ./node_modules/webpack-dev-server/client/index.js?protocol=ws%3A&hostname=0.0.0.0&port=8081&pathname=%2Fws&logging=info&reconnect=10 ***!
   \********************************************************************************************************************************************/
