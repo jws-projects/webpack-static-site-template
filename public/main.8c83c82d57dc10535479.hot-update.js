@@ -1,0 +1,3 @@
+/*! For license information please see main.8c83c82d57dc10535479.hot-update.js.LICENSE.txt */
+"use strict";self.webpackHotUpdatewebpack_static_site_template("main",{"./src/styles/main.scss":(t,s,e)=>{e.r(s);var a=e("./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js")(t.id,{publicPath:"",locals:!1});t.hot.dispose(a),t.hot.accept(void 0,a)}},(function(t){t.h=()=>"15a1760863895b5b87af"}));
+//# sourceMappingURL=main.8c83c82d57dc10535479.hot-update.js.map
