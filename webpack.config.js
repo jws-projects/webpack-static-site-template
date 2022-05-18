@@ -4,6 +4,7 @@ const path = require('path');
 const glob = require('glob');
 const webpack = require('webpack');
 
+const { ESBuildMinifyPlugin } = require('esbuild-loader')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -28,7 +29,6 @@ const dirPublic = path.join(__dirname, 'public');
 const dirPublicAssets = path.join(__dirname, 'public/assets');
 const dirPublicAssetsImages = path.join(__dirname, 'public/assets/images');
 const dirPublicAssetsCSS = path.join(__dirname, 'public/assets/css');
-
 const dirNode = path.join(__dirname, 'node_modules');
 
 const getFileName = function (path) {
@@ -101,9 +101,13 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: 'assets/css/[name].css',
-      chunkFilename: 'assets/css/[id].css',
+      filename: '[name].css',
+      chunkFilename: '[id].css',
     }),
+
+    new HtmlWebpackPugPlugin(),
+    new CleanWebpackPlugin(),
+    ...templates,
 
     // new ImageminWebpWebpackPlugin({
     //   config: [
@@ -142,23 +146,22 @@ module.exports = {
     //   },
     // }),
 
-    ...templates,
-    new HtmlWebpackPugPlugin(),
 
-    new CleanWebpackPlugin(),
   ],
 
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: {
-          loader: 'babel-loader',
+        loader: 'esbuild-loader',
+        options: {
+          target: 'es2015',
         },
       },
 
       {
         test: /\.pug$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'pug3-loader',
@@ -177,20 +180,20 @@ module.exports = {
       },
 
       {
-        test: /\.scss$/,
+        test: [/\.css$/, /\.scss$/, /\.sass$/],
         exclude: /node_modules/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: '',
+              publicPath: '/public/assets/css/',
             },
           },
           {
             loader: 'css-loader',
             options: {
               url: false,
-              sourceMap: !!IS_DEVELOPMENT,
+              sourceMap: IS_DEVELOPMENT,
             },
           },
           {
@@ -202,7 +205,6 @@ module.exports = {
               additionalData: '$IMAGE_URL: "' + IMAGE_URL + '";',
               implementation: require('sass'),
               sassOptions: {
-                // fiber: require('fibers'),
                 charset: true,
                 outputStyle: 'compressed',
               },
@@ -248,7 +250,7 @@ module.exports = {
   },
 
   optimization: {
-    minimize: true,
+    minimize: !IS_DEVELOPMENT,
     minimizer: [
       new TerserPlugin(),
       new ImageMinimizerPlugin({
@@ -275,6 +277,9 @@ module.exports = {
           },
         },
       }),
+      new ESBuildMinifyPlugin({
+         target: 'es2015'  // Syntax to compile to (see options below for possible values)
+      })
     ],
   },
 };
