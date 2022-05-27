@@ -4,7 +4,7 @@ const path = require('path');
 const glob = require('glob');
 const webpack = require('webpack');
 
-const { ESBuildMinifyPlugin } = require('esbuild-loader')
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -13,6 +13,7 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
+const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const enabledSourceMap = process.env.NODE_ENV !== 'production';
 
 const IMAGE_URL = process.env.IMAGE_URL;
@@ -47,7 +48,7 @@ glob
         template: path.resolve(dirViews, file),
         filename: getFileName(file) + '.html',
         data: IMAGE_URL,
-      })
+      }),
     );
   });
 
@@ -56,7 +57,7 @@ module.exports = {
 
   entry: [path.join(dirJs, 'index.js'), path.join(dirStyles, 'main.scss')],
 
-  target: target,
+  target,
 
   devtool: IS_DEVELOPMENT ? 'source-map' : false,
 
@@ -101,11 +102,13 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: 'assets/css/[name].css',
+      chunkFilename: 'assets/css/[id].css',
     }),
 
-    new HtmlWebpackPugPlugin(),
+    new HtmlWebpackPugPlugin({
+      adjustIndent: true,
+    }),
     new CleanWebpackPlugin(),
     ...templates,
 
@@ -145,8 +148,6 @@ module.exports = {
     //     ],
     //   },
     // }),
-
-
   ],
 
   module: {
@@ -186,7 +187,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: '/public/assets/css/',
+              publicPath: '',
             },
           },
           {
@@ -278,8 +279,21 @@ module.exports = {
         },
       }),
       new ESBuildMinifyPlugin({
-         target: 'es2015'  // Syntax to compile to (see options below for possible values)
-      })
+        target: 'es2015',
+      }),
+      new HtmlMinimizerPlugin({
+        minimizerOptions: {
+          caseSensitive: true,
+          collapseBooleanAttributes: true,
+          collapseInlineTagWhitespace: true,
+          collapseWhitespace: true,
+          minifyCSS: true,
+          minifyJS: true,
+          preserveLineBreaks: true,
+          removeComments: true,
+          sortAttributes: true,
+        },
+      }),
     ],
   },
 };
