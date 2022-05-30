@@ -1,11 +1,11 @@
 {
   "name": "webpack-static-site-template",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "index.js",
   "author": "JWS",
   "scripts": {
-    "build": "npx webpack --mode production --progress",
-    "dev": "npx webpack serve --mode development --progress",
+    "build": "npx webpack --progress --node-env=production",
+    "dev": "npx webpack serve --progress --node-env=development",
     "start": "npm run dev"
   },
   "devDependencies": {

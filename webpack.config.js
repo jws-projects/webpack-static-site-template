@@ -16,7 +16,7 @@ const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 
 const IMAGE_URL = process.env.IMAGE_URL;
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
-const target = IS_DEVELOPMENT ? 'web' : 'browserslist';
+const target = IS_DEVELOPMENT ? ['web'] : ['web', 'es5'];
 
 const dirSrc = path.join(__dirname, 'src');
 const dirJs = path.join(__dirname, 'src/js');
@@ -32,6 +32,8 @@ const dirNode = path.join(__dirname, 'node_modules');
 
 const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 
+console.log('** mode **', process.env.NODE_ENV);
+
 const templates = [];
 glob
   .sync('**/*.pug', {
@@ -44,6 +46,8 @@ glob
         template: path.resolve(dirViews, file),
         filename: getFileName(file) + '.html',
         data: IMAGE_URL,
+        minify: false,
+        alwaysWriteToDisk: false,
       }),
     );
   });
@@ -62,11 +66,18 @@ module.exports = {
     },
   },
 
+  performance: {
+    hints: false,
+  },
+
   devtool: IS_DEVELOPMENT ? 'source-map' : false,
 
   devServer: {
     open: true,
     hot: true,
+    historyApiFallback: true,
+    host: 'localhost',
+    compress: true,
     static: {
       watch: true,
       directory: path.resolve(__dirname, 'public'),
@@ -136,28 +147,6 @@ module.exports = {
     //   silent: false,
     //   strict: true,
     // }),
-
-    // new ImageMinimizerPlugin({
-    //   minimizerOptions: {
-    //     plugins: [
-    //       [
-    //         'gifsicle',
-    //         {
-    //           interlaced: false,
-    //           optimizationLevel: 1,
-    //           colors: 256,
-    //         },
-    //       ],
-    //       [
-    //         'mozjpeg',
-    //         {
-    //           quality: 95,
-    //         },
-    //       ],
-    //       ['pngquant', { quality: [0.9, 0.95] }],
-    //     ],
-    //   },
-    // }),
   ],
 
   module: {
@@ -201,13 +190,6 @@ module.exports = {
               self: true,
             },
           },
-          // {
-          //   loader: 'webpack-ssi-include-loader',
-          //   options: {
-          //     localPath: path.join(__dirname, '/public/'),
-          //     location: '/',
-          //   },
-          // },
         ],
       },
 
