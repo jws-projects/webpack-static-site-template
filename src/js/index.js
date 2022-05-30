@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import imagesLoaded from 'imagesloaded';
 import component from './components/component';
 import './util/lazyLoad';

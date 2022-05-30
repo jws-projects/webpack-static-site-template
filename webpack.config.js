@@ -5,7 +5,6 @@ const glob = require('glob');
 const webpack = require('webpack');
 
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -14,7 +13,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
-const enabledSourceMap = process.env.NODE_ENV !== 'production';
 
 const IMAGE_URL = process.env.IMAGE_URL;
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
@@ -32,9 +30,7 @@ const dirPublicAssetsImages = path.join(__dirname, 'public/assets/images');
 const dirPublicAssetsCSS = path.join(__dirname, 'public/assets/css');
 const dirNode = path.join(__dirname, 'node_modules');
 
-const getFileName = function (path) {
-  return path.replace(/\.[^/.]+$/, '');
-};
+const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 
 const templates = [];
 glob
@@ -59,22 +55,36 @@ module.exports = {
 
   target,
 
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
+
   devtool: IS_DEVELOPMENT ? 'source-map' : false,
 
   devServer: {
     open: true,
+    hot: true,
     static: {
+      watch: true,
       directory: path.resolve(__dirname, 'public'),
     },
     devMiddleware: {
-      writeToDisk: true,
+      writeToDisk: false,
     },
+  },
+
+  watchOptions: {
+    ignored: /node_modules/,
   },
 
   output: {
     filename: 'assets/js/[name].js',
     path: path.resolve(__dirname, 'public'),
     publicPath: 'auto',
+    clean: !IS_DEVELOPMENT,
   },
 
   resolve: {
@@ -109,7 +119,7 @@ module.exports = {
     new HtmlWebpackPugPlugin({
       adjustIndent: true,
     }),
-    new CleanWebpackPlugin(),
+
     ...templates,
 
     // new ImageminWebpWebpackPlugin({
@@ -154,51 +164,86 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'esbuild-loader',
-        options: {
-          target: 'es2015',
-        },
-      },
-
-      {
-        test: /\.pug$/,
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src/js'),
         use: [
           {
-            loader: 'pug3-loader',
+            loader: 'thread-loader',
             options: {
-              self: true,
+              workers: require('os').cpus().length - 1,
+              name: 'js-loader-pool',
             },
           },
           {
-            loader: 'webpack-ssi-include-loader',
+            loader: 'esbuild-loader',
             options: {
-              localPath: path.join(__dirname, '/public/'),
-              location: '/',
+              target: 'es2015',
+              sourcemap: IS_DEVELOPMENT,
             },
           },
         ],
       },
 
       {
-        test: [/\.css$/, /\.scss$/, /\.sass$/],
+        test: /\.pug$/,
+        include: path.resolve(__dirname, 'src/views'),
         exclude: /node_modules/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: 'thread-loader',
             options: {
-              publicPath: '',
+              workers: require('os').cpus().length - 1,
+              name: 'pug-loader-pool',
             },
+          },
+          {
+            loader: 'pug3-loader',
+            options: {
+              self: true,
+            },
+          },
+          // {
+          //   loader: 'webpack-ssi-include-loader',
+          //   options: {
+          //     localPath: path.join(__dirname, '/public/'),
+          //     location: '/',
+          //   },
+          // },
+        ],
+      },
+
+      {
+        test: [/\.css$/, /\.scss$/, /\.sass$/],
+        include: path.resolve(__dirname, 'src/styles'),
+        exclude: /node_modules/,
+        use: [
+          // {
+          //   loader: 'thread-loader',
+          //   options: {
+          //     workers: require('os').cpus().length - 1,
+          //     name: 'scss-loader-pool',
+          //   },
+          // },
+          {
+            loader: MiniCssExtractPlugin.loader,
+            // options: {
+            //   publicPath: '',
+            // },
           },
           {
             loader: 'css-loader',
             options: {
               url: false,
               sourceMap: IS_DEVELOPMENT,
+              importLoaders: 2,
             },
           },
           {
             loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [['autoprefixer', { grid: true }]],
+              },
+            },
           },
           {
             loader: 'sass-loader',
@@ -209,7 +254,7 @@ module.exports = {
                 charset: true,
                 outputStyle: 'compressed',
               },
-              sourceMap: enabledSourceMap,
+              sourceMap: IS_DEVELOPMENT,
             },
           },
           {
@@ -220,32 +265,38 @@ module.exports = {
 
       {
         test: /\.(jpe?g|png|gif|svg||webp)$/,
+        include: path.resolve(__dirname, 'src/images'),
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[name][ext]',
+        },
         use: [
           {
-            loader: 'file-loader',
+            loader: 'thread-loader',
             options: {
-              name: '[name].[ext]',
+              workers: require('os').cpus().length - 1,
+              name: 'img-loader-pool',
             },
           },
         ],
       },
 
       {
-        test: /\.(glsl|frag|vert)$/,
-        use: [
-          {
-            loader: 'raw-loader',
-            options: {
-              exclude: /node_modules/,
-            },
-          },
-          {
-            loader: 'glslify-loader',
-            options: {
-              exclude: /node_modules/,
-            },
-          },
-        ],
+        test: /\.(ttf|eot|woff|woff2)$/,
+        include: path.resolve(__dirname, 'src/shared/assets/fonts'),
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[hash][ext]',
+        },
+      },
+
+      {
+        test: /\.(glsl|vs|fs|vert|frag)$/,
+        include: path.resolve(__dirname, 'src/shared/images/'),
+        type: 'asset/source',
+        generator: {
+          filename: 'assets/images/[name][ext]',
+        },
       },
     ],
   },
