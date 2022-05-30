@@ -4,7 +4,7 @@
   "main": "index.js",
   "author": "JWS",
   "scripts": {
-    "build": "npx webpack --mode development --production",
+    "build": "npx webpack --mode production --progress",
     "dev": "npx webpack serve --mode development --progress",
     "start": "npm run dev"
   },
