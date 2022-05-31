@@ -4,6 +4,7 @@ const path = require('path');
 const glob = require('glob');
 const webpack = require('webpack');
 
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -47,7 +48,7 @@ glob
         filename: getFileName(file) + '.html',
         data: IMAGE_URL,
         minify: false,
-        alwaysWriteToDisk: false,
+        alwaysWriteToDisk: true,
       }),
     );
   });
@@ -130,6 +131,8 @@ module.exports = {
     new HtmlWebpackPugPlugin({
       adjustIndent: true,
     }),
+
+    new HtmlWebpackHarddiskPlugin(),
 
     ...templates,
 
