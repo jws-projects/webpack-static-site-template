@@ -13,4 +13,5 @@ mixin head(page, meta)
   meta(property="og:site_name" content=meta['global']['og_site_name'])
   meta(name="twitter:card" content="summary_large_image")
   link(rel="shortcut icon" href=meta[page]['path']+"assets/images/favicon.ico")
-
+  link(rel="stylesheet", href=meta[page]['path']+"assets/css/main.css")
+  script(src=meta[page]['path']+"assets/js/main.js", defer)

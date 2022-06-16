@@ -19,6 +19,9 @@ const IMAGE_URL = process.env.IMAGE_URL;
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const target = IS_DEVELOPMENT ? ['web'] : ['web', 'es5'];
 
+const IS_WEBP = process.env.IS_WEBP === 'true' ? true : false;
+const IS_MINIFY = process.env.IS_MINIFY === 'true' ? true : false;
+
 const dirSrc = path.join(__dirname, 'src');
 const dirJs = path.join(__dirname, 'src/js');
 const dirShared = path.join(__dirname, 'src/shared');
@@ -35,6 +38,8 @@ const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 
 console.log('** mode **', process.env.NODE_ENV);
 
+console.log('IS_MINIFY :>> ', IS_MINIFY);
+
 const templates = [];
 glob
   .sync('**/*.pug', {
@@ -46,12 +51,61 @@ glob
       new HtmlWebpackPlugin({
         template: path.resolve(dirViews, file),
         filename: getFileName(file) + '.html',
-        data: IMAGE_URL,
+        data: {
+          IMAGE_URL,
+          IS_WEBP,
+        },
         minify: false,
         alwaysWriteToDisk: true,
+        inject: false,
       }),
     );
   });
+
+const webpSetting = IS_WEBP
+  ? [
+      new ImageminWebpWebpackPlugin({
+        config: [
+          {
+            test: /\.(jpe?g|png)/,
+            options: {
+              quality: 75,
+            },
+          },
+        ],
+        overrideExtension: false,
+        detailedLogs: false,
+        silent: false,
+        strict: true,
+      }),
+    ]
+  : [];
+
+const minifySettings = IS_MINIFY
+  ? [
+      new TerserPlugin(),
+      new ESBuildMinifyPlugin({
+        target: 'es2015',
+      }),
+      new HtmlMinimizerPlugin({
+        minimizerOptions: {
+          caseSensitive: true,
+          collapseBooleanAttributes: true,
+
+          collapseInlineTagWhitespace: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: false,
+          conservativeCollapse: false,
+          noNewlinesBeforeTagClose: true,
+
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: true,
+          sortAttributes: true,
+        },
+      }),
+    ]
+  : [];
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -134,22 +188,9 @@ module.exports = {
 
     new HtmlWebpackHarddiskPlugin(),
 
-    ...templates,
+    ...webpSetting,
 
-    // new ImageminWebpWebpackPlugin({
-    //   config: [
-    //     {
-    //       test: /\.(jpe?g|png)/,
-    //       options: {
-    //         quality: 75,
-    //       },
-    //     },
-    //   ],
-    //   overrideExtension: true,
-    //   detailedLogs: false,
-    //   silent: false,
-    //   strict: true,
-    // }),
+    ...templates,
   ],
 
   module: {
@@ -191,6 +232,7 @@ module.exports = {
             loader: 'pug3-loader',
             options: {
               self: true,
+              pretty: true,
             },
           },
         ],
@@ -237,7 +279,7 @@ module.exports = {
               implementation: require('sass'),
               sassOptions: {
                 charset: true,
-                outputStyle: 'compressed',
+                outputStyle: IS_MINIFY ? 'compressed' : 'expanded',
               },
               sourceMap: IS_DEVELOPMENT,
             },
@@ -289,7 +331,6 @@ module.exports = {
   optimization: {
     minimize: !IS_DEVELOPMENT,
     minimizer: [
-      new TerserPlugin(),
       new ImageMinimizerPlugin({
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
@@ -314,22 +355,7 @@ module.exports = {
           },
         },
       }),
-      new ESBuildMinifyPlugin({
-        target: 'es2015',
-      }),
-      new HtmlMinimizerPlugin({
-        minimizerOptions: {
-          caseSensitive: true,
-          collapseBooleanAttributes: true,
-          collapseInlineTagWhitespace: true,
-          collapseWhitespace: true,
-          minifyCSS: true,
-          minifyJS: true,
-          preserveLineBreaks: true,
-          removeComments: true,
-          sortAttributes: true,
-        },
-      }),
+      ...minifySettings,
     ],
   },
 };

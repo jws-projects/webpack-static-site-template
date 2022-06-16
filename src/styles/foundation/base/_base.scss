@@ -9,6 +9,7 @@ body {
   @media all and (-ms-high-contrast: none) {
     font-family: "メイリオ";
   }
+  @include bgi("logo.png");
 }
 * {
   box-sizing: border-box;
