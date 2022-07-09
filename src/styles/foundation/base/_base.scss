@@ -30,7 +30,8 @@ a {
 a[href^="tel:"] {
   pointer-events: none;
 }
-img {
+img,
+svg {
   max-width: 100%;
   vertical-align: bottom;
   // width: 100%;
@@ -38,6 +39,9 @@ img {
   &.lazyload {
     // width: 100%;
   }
+}
+svg {
+  display: inline-block;
 }
 i,
 em,

@@ -1,0 +1,11 @@
+.el_svg {
+  background-color: #000;
+  width: 500px;
+  margin: auto;
+  @include media("<tab") {
+    width: 300px;
+  }
+  svg {
+    fill: greenyellow;
+  }
+}

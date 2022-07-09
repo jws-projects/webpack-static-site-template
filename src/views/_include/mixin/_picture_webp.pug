@@ -1,8 +1,7 @@
 //-
   options
     path: 'ファイルパス',
-    name: 'ファイル名(拡張子なし。PCと画像を出し分ける場合はSPのファイル名)',
-    type: '元の拡張子',
+    pc: 'ファイル名(拡張子なし。PCと画像を出し分ける場合はSPのファイル名)',
     sp: 'SPのファイル名(拡張子なし。オプション)',
     alt: 'alt内容(オプション)',
     pcw: 'pcのwidth',
@@ -16,7 +15,7 @@ mixin picture(options)
     if (!options.sp)
       source(
         type="image/webp"
-        data-srcset=`${img}${options.name}.webp`
+        data-srcset=`${img}${options.pc}.webp`
         data-aspectratio=`${options.pcw}/${options.pch}`
         width=options.pcw
         height=options.pch
@@ -25,7 +24,7 @@ mixin picture(options)
       source(
         type="image/webp"
         media=`(min-width:${pcSize}px)`
-        data-srcset=`${img}${options.name}.webp`
+        data-srcset=`${img}${options.pc}.webp`
         data-aspectratio=`${options.pcw}/${options.pch}`
         width=options.pcw
         height=options.pch
@@ -40,7 +39,7 @@ mixin picture(options)
       )
       source(
         media=`(min-width:${pcSize}px)`
-        data-srcset=`${img}${options.name}.${options.type}`
+        data-srcset=`${img}${options.pc}`
         data-aspectratio=`${options.pcw}/${options.pch}`
         width=options.pcw
         height=options.pch
@@ -48,7 +47,7 @@ mixin picture(options)
     img(
       class="lazyload"
       src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7"
-      data-src=`${img}${options.name}.${options.type}`
+      data-src=`${img}${options.pc}`
       data-aspectratio=`${options.pcw}/${options.pch}`
       data-sizes="auto"
       width=options.pcw

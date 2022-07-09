@@ -1,1 +1,47 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta content="width=device-width" name="viewport"><meta content="ie=edge" http-equiv="X-UA-Compatible"><title>webpack static site template</title><link href="https://a.com" rel="canonical"><meta content="description" name="description"><meta content="webpack static site template" property="og:title"><meta content="description" property="og:description"><meta content="https://a.com" property="og:url"><meta content="https://a.com/ogp.png" property="og:image"><meta content="website" property="og:type"><meta content="webpack static site template" property="og:site_name"><meta content="summary_large_image" name="twitter:card"><link href="./assets/images/favicon.ico" rel="shortcut icon"><link href="./assets/css/main.css" rel="stylesheet"><script defer src="./assets/js/main.js"></script></head><body class="home"><div class="ly_wrap"><header><div class="ly_header"></div></header><main class="ly_main"><h1>webpack static site template!!!</h1><div class="hp_pt100"></div><div><picture><source data-aspectratio="400/300" data-srcset="./assets/images/pc.webp" height="300" media="(min-width:768px)" width="400" type="image/webp"><source data-aspectratio="400/300" data-srcset="./assets/images/sp.webp" height="300" media="(max-width:767px)" width="400" type="image/webp"><source data-aspectratio="400/300" data-srcset="./assets/images/pc.jpg" height="300" media="(min-width:768px)" width="400"><img alt="picture" class="lazyload" data-aspectratio="400/300" data-sizes="auto" data-src="./assets/images/pc.jpg" height="300" src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7" width="400"></picture></div></main><footer><div class="ly_footer"></div></footer></div></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>webpack static site template</title>
+    <link rel="canonical" href="https://a.com">
+    <meta name="description" content="description">
+    <meta property="og:title" content="webpack static site template">
+    <meta property="og:description" content="description">
+    <meta property="og:url" content="https://a.com">
+    <meta property="og:image" content="https://a.com/ogp.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="webpack static site template">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="shortcut icon" href="./assets/images/favicon.ico">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <script src="./assets/js/main.js" defer></script>
+  </head>
+  <body class="home">
+    <div class="ly_wrap">
+      <header>
+        <div class="ly_header"></div>
+      </header>
+      <main class="ly_main">
+        <h1>webpack static site template!!!</h1>
+        <div class="el_svg">
+          <svg width="500" height="500">
+            <use xlink:href="./assets/images/logo.svg#logo"></use>
+          </svg>
+        </div>
+        <div class="hp_pt100"></div>
+        <div>
+          <picture>
+            <source type="image/webp" media="(min-width:768px)" data-srcset="./assets/images/pc.jpg.webp" data-aspectratio="400/300" width="400" height="300">
+            <source type="image/webp" media="(max-width:767px)" data-srcset="./assets/images/sp.jpg.webp" data-aspectratio="400/300" width="400" height="300">
+            <source media="(min-width:768px)" data-srcset="./assets/images/pc.jpg" data-aspectratio="400/300" width="400" height="300"><img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7" data-src="./assets/images/pc.jpg" data-aspectratio="400/300" data-sizes="auto" width="400" height="300" alt="picture">
+          </picture>
+        </div>
+      </main>
+      <footer>
+        <div class="ly_footer"></div>
+      </footer>
+    </div>
+  </body>
+</html>
