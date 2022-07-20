@@ -19,8 +19,8 @@ const IMAGE_URL = process.env.IMAGE_URL;
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const target = IS_DEVELOPMENT ? ['web'] : ['web', 'es5'];
 
-const IS_WEBP = process.env.IS_WEBP === 'true' ? true : false;
-const IS_MINIFY = process.env.IS_MINIFY === 'true' ? true : false;
+const IS_WEBP = process.env.IS_WEBP === 'true';
+const IS_MINIFY = process.env.IS_MINIFY === 'true';
 
 const dirSrc = path.join(__dirname, 'src');
 const dirJs = path.join(__dirname, 'src/js');
@@ -37,7 +37,8 @@ const dirNode = path.join(__dirname, 'node_modules');
 const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 
 console.log('** mode **', process.env.NODE_ENV);
-
+console.log('IMAGE_URL :>> ', IMAGE_URL);
+console.log('IS_WEBP :>> ', IS_WEBP);
 console.log('IS_MINIFY :>> ', IS_MINIFY);
 
 const templates = [];
@@ -58,7 +59,7 @@ glob
         minify: false,
         alwaysWriteToDisk: true,
         inject: false,
-      }),
+      })
     );
   });
 
