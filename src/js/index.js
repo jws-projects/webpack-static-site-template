@@ -1,7 +1,8 @@
 import imagesLoaded from 'imagesloaded';
 import component from './components/component';
+import ytmodal from './components/ytmodal';
 import './util/lazyLoad';
-// import ua from './util/userAgent';
+// import ua from './util/userAgent';d
 
 const elm = document.querySelector('body');
 
@@ -11,6 +12,7 @@ const loadScript = async () => {
 
 const afterLoadScript = async () => {
   component();
+  ytmodal();
 };
 
 const mainScript = async () => {
