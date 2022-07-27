@@ -20,6 +20,7 @@ const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const target = IS_DEVELOPMENT ? ['web'] : ['web', 'es5'];
 
 const IS_WEBP = process.env.IS_WEBP === 'true';
+const IS_JQUERY = process.env.IS_JQUERY === 'true';
 
 const dirSrc = path.join(__dirname, 'src');
 const dirJs = path.join(__dirname, 'src/js');
@@ -38,6 +39,17 @@ const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 console.log('** mode **', process.env.NODE_ENV);
 console.log('IMAGE_URL :>> ', IMAGE_URL);
 console.log('IS_WEBP :>> ', IS_WEBP);
+console.log('IS_JQUERY :>> ', IS_JQUERY);
+
+const jq = IS_JQUERY
+  ? [
+      new webpack.ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery',
+      }),
+    ]
+  : [];
 
 const templates = [];
 glob
@@ -111,7 +123,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'public'),
     },
     devMiddleware: {
-      writeToDisk: false,
+      writeToDisk: true,
     },
   },
 
@@ -131,12 +143,6 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery',
-      jquery: 'jquery',
-    }),
-
     new webpack.DefinePlugin({
       IS_DEVELOPMENT,
     }),
@@ -164,6 +170,8 @@ module.exports = {
     ...webpSetting,
 
     ...templates,
+
+    ...jq,
   ],
 
   module: {

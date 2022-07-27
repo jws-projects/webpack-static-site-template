@@ -13,6 +13,8 @@ const loadScript = async () => {
 const afterLoadScript = async () => {
   component();
   ytmodal();
+  const body = $('.ly_main');
+  console.log(body);
 };
 
 const mainScript = async () => {
