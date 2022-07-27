@@ -20,7 +20,6 @@ const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const target = IS_DEVELOPMENT ? ['web'] : ['web', 'es5'];
 
 const IS_WEBP = process.env.IS_WEBP === 'true';
-const IS_MINIFY = process.env.IS_MINIFY === 'true';
 
 const dirSrc = path.join(__dirname, 'src');
 const dirJs = path.join(__dirname, 'src/js');
@@ -39,7 +38,6 @@ const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 console.log('** mode **', process.env.NODE_ENV);
 console.log('IMAGE_URL :>> ', IMAGE_URL);
 console.log('IS_WEBP :>> ', IS_WEBP);
-console.log('IS_MINIFY :>> ', IS_MINIFY);
 
 const templates = [];
 glob
@@ -59,7 +57,7 @@ glob
         minify: false,
         alwaysWriteToDisk: true,
         inject: false,
-      })
+      }),
     );
   });
 
@@ -78,32 +76,6 @@ const webpSetting = IS_WEBP
         detailedLogs: false,
         silent: false,
         strict: true,
-      }),
-    ]
-  : [];
-
-const minifySettings = IS_MINIFY
-  ? [
-      new TerserPlugin(),
-      new ESBuildMinifyPlugin({
-        target: 'es2015',
-      }),
-      new HtmlMinimizerPlugin({
-        minimizerOptions: {
-          caseSensitive: true,
-          collapseBooleanAttributes: true,
-
-          collapseInlineTagWhitespace: true,
-          collapseWhitespace: true,
-          preserveLineBreaks: false,
-          conservativeCollapse: false,
-          noNewlinesBeforeTagClose: true,
-
-          minifyCSS: true,
-          minifyJS: true,
-          removeComments: true,
-          sortAttributes: true,
-        },
       }),
     ]
   : [];
@@ -280,7 +252,7 @@ module.exports = {
               implementation: require('sass'),
               sassOptions: {
                 charset: true,
-                outputStyle: IS_MINIFY ? 'compressed' : 'expanded',
+                outputStyle: 'compressed',
               },
               sourceMap: IS_DEVELOPMENT,
             },
@@ -356,7 +328,25 @@ module.exports = {
           },
         },
       }),
-      ...minifySettings,
+      new TerserPlugin(),
+      new ESBuildMinifyPlugin({
+        target: 'es2015',
+      }),
+      new HtmlMinimizerPlugin({
+        minimizerOptions: {
+          caseSensitive: true,
+          collapseBooleanAttributes: true,
+          collapseInlineTagWhitespace: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: false,
+          conservativeCollapse: false,
+          noNewlinesBeforeTagClose: true,
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: true,
+          sortAttributes: true,
+        },
+      }),
     ],
   },
 };

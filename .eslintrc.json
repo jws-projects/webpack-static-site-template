@@ -1,10 +1,16 @@
 {
   "root": true,
-  "extends": ["standard", "prettier", "plugin:prettier/recommended"],
+  "extends": [
+    "standard",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
   "env": {
     "browser": true
   },
-  "plugins": ["prettier"],
+  "plugins": [
+    "prettier"
+  ],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -20,7 +26,10 @@
     "no-undef": 0,
     "no-path-concat": 0,
     "array-callback-return": 0,
-    "array-element-newline": ["error", "consistent"]
+    "array-element-newline": [
+      "error",
+      "consistent"
+    ]
   },
   "globals": {
     "$": false,
