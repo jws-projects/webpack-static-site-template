@@ -249,7 +249,19 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [['autoprefixer', { grid: true }]],
+                plugins: [
+                  ['postcss-normalize-charset', {}],
+                  ['autoprefixer', { grid: true }],
+                  ['postcss-sort-media-queries', {}],
+                  ['css-declaration-sorter', { order: 'smacss' }],
+                  [
+                    '@fullhuman/postcss-purgecss',
+                    {
+                      content: [`./src/**/*.pug`, `./src/**/*.js`],
+                      safelist: [''],
+                    },
+                  ],
+                ],
               },
             },
           },

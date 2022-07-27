@@ -133,3 +133,7 @@ IMAGE_URL=''
 ## SSI に対応
 
 SSI に対応しています。`shared`内に SSI する html を入れて pug に記載すると出力されます。
+
+## PurgeCSS の Safelist
+
+<https://purgecss.com/safelisting.html>
