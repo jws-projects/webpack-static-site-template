@@ -1,6 +1,7 @@
 .ly_wrap {
   position: relative;
   height: 100%;
+  @include bgi("logo.png");
   @include media("<tab") {
     overflow: hidden;
   }

@@ -73,6 +73,16 @@ glob
     );
   });
 
+const scssFiles = [];
+glob
+  .sync('**/*.scss', {
+    ignore: '**/_*.scss',
+    cwd: dirStyles,
+  })
+  .map((file) => {
+    scssFiles.push(path.join(dirStyles, file));
+  });
+
 const webpSetting = IS_WEBP
   ? [
       new ImageminWebpWebpackPlugin({
@@ -92,19 +102,26 @@ const webpSetting = IS_WEBP
     ]
   : [];
 
-module.exports = {
-  mode: process.env.NODE_ENV,
-
-  entry: [path.join(dirJs, 'index.js'), path.join(dirStyles, 'main.scss')],
-
-  target,
-
-  cache: {
+let chacheSetting;
+if (IS_DEVELOPMENT) {
+  chacheSetting = {
     type: 'filesystem',
     buildDependencies: {
       config: [__filename],
     },
-  },
+  };
+} else {
+  chacheSetting = false;
+}
+
+module.exports = {
+  mode: process.env.NODE_ENV,
+
+  entry: [path.join(dirJs, 'index.js'), ...scssFiles],
+
+  target,
+
+  cache: chacheSetting,
 
   performance: {
     hints: false,
@@ -224,13 +241,6 @@ module.exports = {
         include: path.resolve(__dirname, 'src/styles'),
         exclude: /node_modules/,
         use: [
-          // {
-          //   loader: 'thread-loader',
-          //   options: {
-          //     workers: require('os').cpus().length - 1,
-          //     name: 'scss-loader-pool',
-          //   },
-          // },
           {
             loader: MiniCssExtractPlugin.loader,
             // options: {
@@ -268,7 +278,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              additionalData: '$IMAGE_URL: "' + IMAGE_URL + '";',
+              additionalData: `$IMAGE_URL:"${IMAGE_URL}";`,
               implementation: require('sass'),
               sassOptions: {
                 charset: true,
