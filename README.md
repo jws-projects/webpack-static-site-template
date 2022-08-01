@@ -124,6 +124,10 @@ IMAGE_URL=''
 }
 ```
 
+## 別端末の同期機能　 devserver の URL について
+
+同じ Wi-fi に接続している場合、devserver で開いた URL を別端末で開けば同期される
+
 ## Media Queries について
 
 [include-media](https://eduardoboucas.github.io/include-media/#features)で実装しています。

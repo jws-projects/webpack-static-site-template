@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx webpack --progress --node-env=production",
     "build_ex": "npx webpack --progress --node-env=production && html-beautify public/**/*.html && css-beautify public/**/*.css && js-beautify public/**/*.js",
-    "dev": "npx webpack serve --progress --node-env=development",
+    "dev": "npx webpack serve --host local-ip --progress --node-env=development",
     "start": "pnpm run dev"
   },
   "devDependencies": {
