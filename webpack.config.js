@@ -15,6 +15,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 
+const EslintWebpackPlugin = require('eslint-webpack-plugin');
+
 const IMAGE_URL = process.env.IMAGE_URL;
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const target = IS_DEVELOPMENT ? ['web'] : ['web', 'es5'];
@@ -183,6 +185,12 @@ module.exports = {
     }),
 
     new HtmlWebpackHarddiskPlugin(),
+
+    new EslintWebpackPlugin({
+      fix: false,
+      failOnError: false,
+      exclude: 'node_modules',
+    }),
 
     ...webpSetting,
 

@@ -5,9 +5,9 @@ webpack のみで実装した LP や静的 web サイトの開発環境です。
 ## Command
 
 ```bash
-npm install
-npm start
-npm run build
+pnpm install
+pnpm start
+pnpm run build
 ```
 
 ## ファイル構成

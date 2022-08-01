@@ -1,4 +1,7 @@
 // @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500&display=swap");
+html {
+  scroll-behavior: smooth; //SmoothScroll
+}
 body {
   font-family: "Yu Gothic", "游ゴシック", YuGothic, "游ゴシック体",
     "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
