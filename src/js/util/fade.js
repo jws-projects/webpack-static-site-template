@@ -1,33 +1,54 @@
-/**
- * jQuery fadeOutのVanillaJS実装
- * @param {selector} el
- */
-export function fadeOut(el) {
-  el.style.opacity = 1;
+import gsap from 'gsap';
 
-  (function fade() {
-    if ((el.style.opacity -= 0.05) < 0) {
-      el.style.display = 'none';
-    } else {
-      requestAnimationFrame(fade);
-    }
-  })();
-}
+export default class Fade {
+  /**
+   * Fadeに関するClass
+   * @param {{
+   *  element: HTMLElementn,
+   *  duration: number,
+   *  ease: String,
+   *  display: String
+   * }}
+   */
+  constructor({
+    element = document.querySelector('.js-fade'),
+    duration = 0.4,
+    ease = 'power3.Out',
+    display = 'block',
+  }) {
+    this.element = element;
+    this.duration = duration;
+    this.ease = ease;
+    this.display = display;
+  }
 
-/**
- * jQuery fadeInのVanillaJS実装
- * @param {selector} el
- * @param {display} display
- */
-export function fadeIn(el, display) {
-  el.style.opacity = 0;
-  el.style.display = display || 'block';
+  /**
+   * fadeOutを行うための関数。
+   */
+  fadeOut() {
+    gsap.set(this.element, { opacity: 1, display: this.display });
+    gsap.to(this.element, {
+      opacity: 0,
+      ease: this.ease,
+      duration: this.duration,
+      onComplete: () => {
+        this.element.style.display = 'none';
+      },
+    });
+  }
 
-  (function fade() {
-    let val = parseFloat(el.style.opacity);
-    if (!((val += 0.05) > 1)) {
-      el.style.opacity = val;
-      requestAnimationFrame(fade);
-    }
-  })();
+  /**
+   * fadeInを行うための関数。
+   */
+  fadeIn() {
+    gsap.set(this.element, { opacity: 0, display: this.display });
+    gsap.to(this.element, {
+      opacity: 1,
+      ease: this.ease,
+      duration: this.duration,
+      onComplete: () => {
+        this.element.style.display = this.display;
+      },
+    });
+  }
 }

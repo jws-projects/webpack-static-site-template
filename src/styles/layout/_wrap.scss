@@ -1,7 +1,12 @@
 .ly_wrap {
   position: relative;
   height: 100%;
-  @include bgi("logo.png");
+  @include bgi("logo.png.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #000;
+  color: invert($color: #000000);
   @include media("<tab") {
     overflow: hidden;
   }

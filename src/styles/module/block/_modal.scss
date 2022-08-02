@@ -7,6 +7,7 @@
   left: 0;
   opacity: 0;
   display: none;
+  // pointer-events: none;
   transition: 0.5s $easeOutExpo opacity;
   &_wrap {
     position: relative;
@@ -24,6 +25,7 @@
     top: 0;
     left: 0;
     cursor: pointer;
+    // display: none;
   }
   &_contents {
     max-width: 700px;
