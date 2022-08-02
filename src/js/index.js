@@ -1,18 +1,17 @@
 import imagesLoaded from 'imagesloaded';
-import component from './components/component';
-import ytmodal from './components/ytmodal';
+import ytmodal from './components/Ytmodal';
 import './util/lazyLoad';
-// import ua from './util/userAgent';d
+import SlideToggle from './util/slideToggle';
 
 const elm = document.querySelector('body');
 
-const loadScript = async () => {
-  // ua.init();
-};
+const slideToggle = new SlideToggle();
+
+const loadScript = async () => {};
 
 const afterLoadScript = async () => {
-  component();
-  ytmodal();
+  ytmodal.init();
+  slideToggle.toggle();
 };
 
 const mainScript = async () => {

@@ -1,27 +1,40 @@
-import { fadeIn, fadeOut } from '../util/fade';
+import Fade from '../util/Fade';
 
-/**
- * Youtubeモーダル
- * a(data-yt="xxxxxxx").js-ytmodalbtnをクリックして起動
- */
-const ytmodal = () => {
-  const movBtns = document.querySelectorAll('.js-ytmodalbtn');
-  const modal = document.querySelector('.bl_modal');
-  const iframeYt = document.querySelector('.bl_modal_yt iframe');
-  const modalMask = document.querySelector('.bl_modal_mask');
+class Ytmodal {
+  constructor() {
+    this.movBtns = document.querySelectorAll('.js-ytmodalbtn');
+    this.modal = document.querySelector('.bl_modal');
+    this.iframeYt = document.querySelector('.bl_modal_yt iframe');
+    this.modalMask = document.querySelector('.bl_modal_mask');
 
-  movBtns.forEach((movBtn) => {
-    movBtn.addEventListener('click', () => {
-      const yt = movBtn.getAttribute('data-yt');
-      iframeYt.setAttribute('src', `https://www.youtube.com/embed/${yt}`);
-      fadeIn(modal);
+    this.fade = new Fade({ element: this.modal });
+  }
+
+  show() {
+    this.movBtns.forEach((movBtn) => {
+      movBtn.addEventListener('click', () => {
+        const yt = movBtn.getAttribute('data-yt');
+        this.iframeYt.setAttribute(
+          'src',
+          `https://www.youtube.com/embed/${yt}`
+        );
+        this.fade.fadeIn();
+      });
     });
-  });
+  }
 
-  modalMask.addEventListener('click', () => {
-    iframeYt.setAttribute('src', ``);
-    fadeOut(modal);
-  });
-};
+  hide() {
+    this.modalMask.addEventListener('click', () => {
+      this.iframeYt.setAttribute('src', ``);
+      this.fade.fadeOut();
+    });
+  }
 
+  init() {
+    this.show();
+    this.hide();
+  }
+}
+
+const ytmodal = new Ytmodal();
 export default ytmodal;

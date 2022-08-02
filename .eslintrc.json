@@ -21,6 +21,7 @@
       }
     ],
     "yoda": 0,
+    "no-useless-constructor": "off",
     "no-unused-vars": 0,
     "import/no-webpack-loader-syntax": 0,
     "no-undef": 0,

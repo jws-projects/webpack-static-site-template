@@ -71,7 +71,7 @@ glob
         minify: false,
         alwaysWriteToDisk: true,
         inject: false,
-      }),
+      })
     );
   });
 
@@ -104,17 +104,19 @@ const webpSetting = IS_WEBP
     ]
   : [];
 
-let chacheSetting;
-if (IS_DEVELOPMENT) {
-  chacheSetting = {
-    type: 'filesystem',
-    buildDependencies: {
-      config: [__filename],
-    },
-  };
-} else {
-  chacheSetting = false;
-}
+const chacheSetting = false;
+// if (IS_DEVELOPMENT) {
+//   chacheSetting = {
+//     type: 'filesystem',
+//     buildDependencies: {
+//       config: [__filename],
+//     },
+//   };
+// } else {
+//   chacheSetting = false;
+// }
+
+console.log('chacheSetting :>> ', chacheSetting);
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -136,13 +138,12 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     host: '0.0.0.0',
-    compress: true,
     static: {
       watch: true,
       directory: path.resolve(__dirname, 'public'),
     },
     devMiddleware: {
-      writeToDisk: true,
+      writeToDisk: false,
     },
   },
 
