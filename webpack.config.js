@@ -367,7 +367,9 @@ module.exports = {
           },
         },
       }),
-      new TerserPlugin(),
+      new TerserPlugin({
+        extractComments: false,
+      }),
       new ESBuildMinifyPlugin({
         target: 'es2015',
       }),
