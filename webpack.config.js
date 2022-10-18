@@ -68,7 +68,7 @@ glob
           IMAGE_URL,
           IS_WEBP,
         },
-        minify: false,
+        minify: true,
         alwaysWriteToDisk: true,
         inject: false,
       })
@@ -92,7 +92,7 @@ const webpSetting = IS_WEBP
           {
             test: /\.(jpe?g|png)/,
             options: {
-              quality: 75,
+              quality: 95,
             },
           },
         ],
@@ -116,8 +116,6 @@ const chacheSetting = false;
 //   chacheSetting = false;
 // }
 
-console.log('chacheSetting :>> ', chacheSetting);
-
 module.exports = {
   mode: process.env.NODE_ENV,
 
@@ -129,6 +127,8 @@ module.exports = {
 
   performance: {
     hints: false,
+    // maxEntrypointSize: 512000,
+    // maxAssetSize: 512000,
   },
 
   devtool: IS_DEVELOPMENT ? 'source-map' : false,
@@ -273,13 +273,13 @@ module.exports = {
                   ['autoprefixer', { grid: true }],
                   ['postcss-sort-media-queries', {}],
                   ['css-declaration-sorter', { order: 'smacss' }],
-                  [
-                    '@fullhuman/postcss-purgecss',
-                    {
-                      content: [`./src/**/*.pug`, `./src/**/*.js`],
-                      safelist: [''],
-                    },
-                  ],
+                  // [
+                  //   '@fullhuman/postcss-purgecss',
+                  //   {
+                  //     content: [`./src/**/*.pug`, `./src/**/*.js`],
+                  //     deep: { standard: [/^swiper/] },
+                  //   },
+                  // ],
                 ],
               },
             },
@@ -367,9 +367,9 @@ module.exports = {
           },
         },
       }),
-      new TerserPlugin({
-        extractComments: false,
-      }),
+      // new TerserPlugin({
+      //   extractComments: false,
+      // }),
       new ESBuildMinifyPlugin({
         target: 'es2015',
       }),

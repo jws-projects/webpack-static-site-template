@@ -1,6 +1,10 @@
 .hp_font {
-  &-mincho {
-    font-family: "游明朝体", "Yu Mincho", YuMincho, "Noto Serif JP",
-      "ヒラギノ明朝 Pro", "Hiragino Mincho Pro", "MS P明朝", "MS PMincho", serif;
+  &-manrope {
+    font-family: "Manrope", "Noto Sans JP", "Yu Gothic", "游ゴシック", YuGothic,
+      "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
+  }
+  &-montserrat {
+    font-family: "Montserrat", "Noto Sans JP", "Yu Gothic", "游ゴシック",
+      YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
   }
 }

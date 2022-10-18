@@ -1,5 +1,5 @@
 /***
-    The new CSS reset - version 1.7.2 (last updated 23.6.2022)
+    The new CSS reset - version 1.7.3 (last updated 7.8.2022)
     GitHub page: https://github.com/elad2412/the-new-css-reset
 ***/
 
@@ -7,7 +7,8 @@
     Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
     - The "symbol *" part is to solve Firefox SVG sprite bug
  */
-*:where(:not(html, iframe, canvas, img, svg, video):not(svg *, symbol *)) {
+*:where(:not(html, iframe, canvas, img, svg, video, audio):not(svg *, symbol
+      *)) {
   all: unset;
   display: revert;
 }
@@ -65,14 +66,14 @@ meter {
 }
 
 /* fix the feature of 'hidden' attribute.
- display:revert; revert to element instead of attribute */
+   display:revert; revert to element instead of attribute */
 :where([hidden]) {
   display: none;
 }
 
 /* revert for bug in Chromium browsers
- - fix for the content editable attribute will work properly.
- - webkit-user-select: auto; added for Safari in case of using user-select:none on wrapper element*/
+   - fix for the content editable attribute will work properly.
+   - webkit-user-select: auto; added for Safari in case of using user-select:none on wrapper element*/
 :where([contenteditable]:not([contenteditable="false"])) {
   -moz-user-modify: read-write;
   -webkit-user-modify: read-write;

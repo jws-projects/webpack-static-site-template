@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "../setting" as *;
+
 @function get_lh($fz, $lh) {
   @return math.div($lh, $fz);
 }
@@ -7,18 +10,17 @@
 }
 
 @mixin lineHeightCrop($fz, $lh) {
-  &::before {
-    display: block;
-    width: 0;
-    height: 0;
-    margin-top: calc((1 - #{$lh / $fz}) * 0.5em);
-    content: "";
-  }
+  &::before,
   &::after {
     display: block;
     width: 0;
     height: 0;
-    margin-bottom: calc((1 - #{$lh / $fz}) * 0.5em);
     content: "";
+  }
+  &::before {
+    margin-top: calc((1 - #{math.div($lh, $fz)}) * 0.5em);
+  }
+  &::after {
+    margin-bottom: calc((1 - #{math.div($lh, $fz)}) * 0.5em);
   }
 }

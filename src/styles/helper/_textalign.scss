@@ -1,3 +1,7 @@
+@use "sass:math";
+@use "global" as *;
+@use "include-media/dist/_include-media" as *;
+
 .hp_tar {
   text-align: right;
 }
@@ -9,7 +13,7 @@
 }
 .hp_tac-tal {
   text-align: center;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     text-align: left;
   }
 }

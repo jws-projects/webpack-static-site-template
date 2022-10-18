@@ -4,7 +4,7 @@ export default class Fade {
   /**
    * Fadeに関するClass
    * @param {{
-   *  element: HTMLElementn,
+   *  element: HTMLElement,
    *  duration: number,
    *  ease: String,
    *  display: String
@@ -12,14 +12,15 @@ export default class Fade {
    */
   constructor({
     element = document.querySelector('.js-fade'),
-    duration = 0.4,
-    ease = 'power3.Out',
+    duration = 0.5,
+    ease = 'expo.out',
     display = 'block',
   }) {
     this.element = element;
     this.duration = duration;
     this.ease = ease;
     this.display = display;
+    this.show = false;
   }
 
   /**
@@ -31,8 +32,11 @@ export default class Fade {
       opacity: 0,
       ease: this.ease,
       duration: this.duration,
+      // onStart: () => {
+      //   document.querySelector(this.element).style.pointerEvents = 'none';
+      // },
       onComplete: () => {
-        this.element.style.display = 'none';
+        document.querySelector(this.element).style.display = 'none';
       },
     });
   }
@@ -41,14 +45,28 @@ export default class Fade {
    * fadeInを行うための関数。
    */
   fadeIn() {
-    gsap.set(this.element, { opacity: 0, display: this.display });
+    gsap.set(this.element, {
+      opacity: 0,
+      display: this.display,
+      pointerEvents: 'all',
+    });
     gsap.to(this.element, {
       opacity: 1,
       ease: this.ease,
       duration: this.duration,
-      onComplete: () => {
-        this.element.style.display = this.display;
-      },
     });
+  }
+
+  /**
+   * fadeToggle
+   */
+  fadeToggle() {
+    if (!this.show) {
+      this.fadeIn();
+      this.show = true;
+    } else {
+      this.fadeOut();
+      this.show = false;
+    }
   }
 }

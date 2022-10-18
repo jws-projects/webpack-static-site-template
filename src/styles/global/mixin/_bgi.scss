@@ -1,10 +1,12 @@
+@use "../setting" as *;
+
 @mixin bgi($url) {
   // .envのIMAGE_URLを確認し、入力があれば書き換える
   @if ($IMAGE_URL == "") {
-    $img: "../../assets/images/";
+    $img: "../../common/images/";
     background-image: url(#{$img}#{$url});
   } @else {
-    $img: "assets/images/";
+    $img: "common/images/";
     background-image: url(#{$IMAGE_URL}#{$img}#{$url});
   }
 }

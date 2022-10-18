@@ -1,5 +1,5 @@
-$pc-design-width: 1400;
-$sp-design-width: 375; // SPデザインの幅を設定
+@use "sass:math";
+@use "../setting" as *;
 
 @function vw($num, $width: $sp-design-width) {
   @return (math.div(100vw * $num, $width));
@@ -22,6 +22,6 @@ $sp-design-width: 375; // SPデザインの幅を設定
   @return $rate * $size * 1vw;
 }
 
-@mixin fz_vw($font_size: 10) {
-  font-size: get_fzvw($font_size);
+@function pc($num) {
+  @return min(#{vwPC($num)}, #{$num}px);
 }

@@ -1,27 +1,30 @@
+@use "global" as *;
+@use "include-media/dist/_include-media" as *;
+
 // block
 .hp_db {
   display: block;
 }
 .hp_db-pc {
   display: block;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: none;
   }
 }
 .hp_db-sp {
   display: none;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: block;
   }
 }
 .hp_dib-db {
   display: inline-block;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: block;
   }
 }
 .hp_dn-sp {
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: none !important;
   }
 }
@@ -32,7 +35,7 @@
 }
 .hp_dn-di {
   display: none;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: inline;
   }
 }
@@ -43,37 +46,37 @@
 }
 .hp_dib-pc {
   display: inline-block;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: none;
   }
 }
 .hp_dib-sp {
   display: none;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: inline-block;
   }
 }
 .hp_db-dib {
   display: block;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: inline-block;
   }
 }
 .hp_db-di {
   display: block;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: inline;
   }
 }
 .hp_dib-di {
   display: inline-block;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: inline;
   }
 }
 .hp_dib-db {
   display: inline-block;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: block;
   }
 }
@@ -84,13 +87,13 @@
 }
 .hp_di-pc {
   display: inline;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: none;
   }
 }
 .hp_di-sp {
   display: none;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: inline;
   }
 }
@@ -101,13 +104,13 @@
 }
 .hp_df-pc {
   display: flex;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: none;
   }
 }
 .hp_df-sp {
   display: none;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: flex;
   }
 }
@@ -118,13 +121,17 @@
 }
 .hp_dif-pc {
   display: inline-flex;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: none;
   }
 }
 .hp_dif-sp {
   display: none;
-  @include media("<tab") {
+  @include media("<tab", "screen") {
     display: inline-flex;
   }
+}
+
+.hp_jcc {
+  justify-content: center;
 }
