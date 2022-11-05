@@ -9,7 +9,7 @@
     spw: 'spのwidth',
     sph: 'spのheight',
 mixin picture(options)
-  - pcSize = 768
+  - pcSize = BREAK_POINT
   - options = options || {};
   picture
     if (!options.sp)

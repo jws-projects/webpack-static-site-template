@@ -1,9 +1,7 @@
-require('dotenv').config();
-
+// * PLUGIN
 const path = require('path');
 const glob = require('glob');
 const webpack = require('webpack');
-
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
@@ -14,16 +12,18 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
-
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 
-const IMAGE_URL = process.env.IMAGE_URL;
+// * ENVIRONMENT
+const config = require('./.config');
+const IMAGE_URL = config.IMAGE_URL;
+const IS_WEBP = config.IS_WEBP;
+const BREAK_POINT = config.BREAK_POINT;
+const IS_JQUERY = config.IS_JQUERY;
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const target = IS_DEVELOPMENT ? ['web'] : ['web', 'es5'];
 
-const IS_WEBP = process.env.IS_WEBP === 'true';
-const IS_JQUERY = process.env.IS_JQUERY === 'true';
-
+// * DIR
 const dirSrc = path.join(__dirname, 'src');
 const dirJs = path.join(__dirname, 'src/js');
 const dirShared = path.join(__dirname, 'src/shared');
@@ -41,7 +41,9 @@ const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 console.log('** mode **', process.env.NODE_ENV);
 console.log('IMAGE_URL :>> ', IMAGE_URL);
 console.log('IS_WEBP :>> ', IS_WEBP);
+console.log('BREAK_POINT :>> ', BREAK_POINT);
 console.log('IS_JQUERY :>> ', IS_JQUERY);
+console.log('target :>> ', target);
 
 const jq = IS_JQUERY
   ? [
@@ -67,6 +69,10 @@ glob
         data: {
           IMAGE_URL,
           IS_WEBP,
+          BREAK_POINT,
+          DIR_VIEWS: dirViews,
+          DIR_IMAGES: dirImages,
+          IMS: require('image-size'),
         },
         minify: true,
         alwaysWriteToDisk: true,
@@ -165,6 +171,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       IS_DEVELOPMENT,
+      BREAK_POINT,
     }),
 
     new CopyWebpackPlugin({
