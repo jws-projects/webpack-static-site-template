@@ -1,17 +1,17 @@
 import imagesLoaded from 'imagesloaded';
 import ytmodal from './components/Ytmodal';
 import './util/lazyLoad';
-import SlideToggle from './util/slideToggle';
+// import SlideToggle from './util/slideToggle';
 
 const elm = document.querySelector('body');
 
-const slideToggle = new SlideToggle();
+// const slideToggle = new SlideToggle();
 
 const loadScript = async () => {};
 
 const afterLoadScript = async () => {
   ytmodal.init();
-  slideToggle.toggle();
+  // slideToggle.toggle();
 };
 
 const mainScript = async () => {

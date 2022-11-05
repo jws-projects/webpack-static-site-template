@@ -13,6 +13,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
+const ImageSize = require('image-size');
 
 // * ENVIRONMENT
 const config = require('./.config');
@@ -36,7 +37,7 @@ const dirPublicAssetsImages = path.join(__dirname, 'public/assets/images');
 const dirPublicAssetsCSS = path.join(__dirname, 'public/assets/css');
 const dirNode = path.join(__dirname, 'node_modules');
 
-const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
+const getFileName = path => path.replace(/\.[^/.]+$/, '');
 
 console.log('** mode **', process.env.NODE_ENV);
 console.log('IMAGE_URL :>> ', IMAGE_URL);
@@ -61,7 +62,7 @@ glob
     ignore: '**/_*.pug',
     cwd: dirViews,
   })
-  .map(function (file) {
+  .map(function(file) {
     templates.push(
       new HtmlWebpackPlugin({
         template: path.resolve(dirViews, file),
@@ -72,7 +73,7 @@ glob
           BREAK_POINT,
           DIR_VIEWS: dirViews,
           DIR_IMAGES: dirImages,
-          IMS: require('image-size'),
+          imageSize: src => ImageSize(`${dirImages}\\${src}`),
         },
         minify: true,
         alwaysWriteToDisk: true,
@@ -87,7 +88,7 @@ glob
     ignore: '**/_*.scss',
     cwd: dirStyles,
   })
-  .map((file) => {
+  .map(file => {
     scssFiles.push(path.join(dirStyles, file));
   });
 

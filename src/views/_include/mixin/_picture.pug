@@ -1,26 +1,57 @@
 //-
   options
     path: 'ファイルパス',
-    name: 'ファイル名(拡張子なし。PCと画像を出し分ける場合はSPのファイル名)',
+    pc: 'ファイル名(拡張子なし。PCと画像を出し分ける場合はSPのファイル名)',
     sp: 'SPのファイル名(拡張子なし。オプション)',
     alt: 'alt内容(オプション)',
-    pcw: 'pcのwidth',
-    pch: 'pcのheight',
-    spw: 'spのwidth',
-    sph: 'spのheight',
-
 mixin picture(options)
-  - pcSize = 768
-  - options = options || {};
-  picture
+  -
+    options = options || {};
+    IS_WEBP = self.htmlWebpackPlugin.options.data.IS_WEBP
+    imageSize = self.htmlWebpackPlugin.options.data.imageSize;
+    pcSize = imageSize(options.pc);
     if(options.sp)
+      spSize = imageSize(options.sp);
+    if(IS_WEBP)
+      webp = IS_WEBP ? '.webp' : '';
+
+  picture
+    //- Retinaの有無
+    if (options.retina)
       source(
-        media=`(max-width:${pcSize - 1}px)`
-        srcset=`${img}${options.sp}`
-        aspect-ratio=`${options.spw}/${options.sph}`
+        type="image/webp"
+        media=options.sp ? `(min-width:${BREAK_POINT}px)` : `all`
+        data-srcset=`${img}${options.pc}${webp} 1x, ${img}${options.retina}${webp} 2x`
+        data-aspectratio=`${pcSize.width}/${pcSize.height}`
+        width=pcSize.width
+        height=pcSize.height
+      )
+    else
+      source(
+        type="image/webp"
+        media=options.sp ? `(min-width:${BREAK_POINT}px)` : `all`
+        data-srcset=`${img}${options.pc}${webp}`
+        data-aspectratio=`${pcSize.width}/${pcSize.height}`
+        width=pcSize.width
+        height=pcSize.height
+      )
+    //- SPの有無
+    if (options.sp)
+      source(
+        type="image/webp"
+        media=`(max-width:${BREAK_POINT - 1}px)`
+        data-srcset=`${img}${options.sp}${webp}`
+        data-aspectratio=`${spSize.width}/${spSize.height}`
+        width=spSize.width
+        height=spSize.height
       )
     img(
-      src=`${img}${options.pc}`
-      aspect-ratio=`${options.pcw}/${options.pch}`
+      class="lazyload"
+      src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7"
+      data-src=`${img}${options.pc}${webp}`
+      data-aspectratio=`${options.pcw}/${options.pch}`
+      data-sizes="auto"
+      width=pcSize.width
+      height=pcSize.height
       alt=(options.alt || '')
     )
