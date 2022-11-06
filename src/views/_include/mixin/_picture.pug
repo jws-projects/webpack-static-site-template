@@ -15,7 +15,7 @@ mixin picture(options)
     if(IS_WEBP)
       webp = IS_WEBP ? '.webp' : '';
 
-  picture
+  picture(class=options.full ? 'el_picture-full' : 'el_picture')
     //- Retinaの有無
     if (options.retina)
       source(

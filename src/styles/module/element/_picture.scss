@@ -1,0 +1,14 @@
+@use 'global' as *;
+@use 'include-media/dist/_include-media' as *;
+
+.el_picture {
+  &-full {
+    display: block;
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

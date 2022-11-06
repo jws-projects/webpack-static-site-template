@@ -1,5 +1,7 @@
 mixin svg(options)
-  - options = options || {};
-  svg(width=options.w, height=options.h)
-    use(xlink:href=`${img}${options.src}#${options.id}`)
+  -
+    options = options || {};
+    svgPath = `${img}svg/${options.id}.svg`;
+  svg(class=options.full ? "el_svg-full" : "el_svg" width=options.width, height=options.height)
+    use(xlink:href=`${svgPath}#${options.id}`)
 

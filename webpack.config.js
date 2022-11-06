@@ -37,7 +37,7 @@ const dirPublicAssetsImages = path.join(__dirname, 'public/assets/images');
 const dirPublicAssetsCSS = path.join(__dirname, 'public/assets/css');
 const dirNode = path.join(__dirname, 'node_modules');
 
-const getFileName = path => path.replace(/\.[^/.]+$/, '');
+const getFileName = (path) => path.replace(/\.[^/.]+$/, '');
 
 console.log('** mode **', process.env.NODE_ENV);
 console.log('IMAGE_URL :>> ', IMAGE_URL);
@@ -62,7 +62,7 @@ glob
     ignore: '**/_*.pug',
     cwd: dirViews,
   })
-  .map(function(file) {
+  .map(function (file) {
     templates.push(
       new HtmlWebpackPlugin({
         template: path.resolve(dirViews, file),
@@ -73,7 +73,7 @@ glob
           BREAK_POINT,
           DIR_VIEWS: dirViews,
           DIR_IMAGES: dirImages,
-          imageSize: src => ImageSize(`${dirImages}\\${src}`),
+          imageSize: (src) => ImageSize(`${dirImages}\\${src}`),
         },
         minify: true,
         alwaysWriteToDisk: true,
@@ -88,7 +88,7 @@ glob
     ignore: '**/_*.scss',
     cwd: dirStyles,
   })
-  .map(file => {
+  .map((file) => {
     scssFiles.push(path.join(dirStyles, file));
   });
 
@@ -122,6 +122,22 @@ const chacheSetting = false;
 // } else {
 //   chacheSetting = false;
 // }
+
+const pergeCSS = IS_DEVELOPMENT
+  ? []
+  : [
+      '@fullhuman/postcss-purgecss',
+      {
+        content: [
+          './src/**/*.html',
+          './src/**/*.pug',
+          './src/**/*.js',
+          './src/**/*.ts',
+        ],
+        safelist: { standard: [/^swiper/] },
+        skippedContentGlobs: ['node_modules/**'],
+      },
+    ];
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -281,6 +297,7 @@ module.exports = {
                   ['autoprefixer', { grid: true }],
                   ['postcss-sort-media-queries', {}],
                   ['css-declaration-sorter', { order: 'smacss' }],
+                  // ...pergeCSS,
                   // [
                   //   '@fullhuman/postcss-purgecss',
                   //   {

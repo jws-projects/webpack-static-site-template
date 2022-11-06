@@ -6,8 +6,7 @@ block var
 
 block content
   h1 webpack static site template
-  .el_svg
-    +svg({src:"logo.svg",id:"logo",w:"500",h:"500"})
+  +svg({id:"logo", width:"500", height:"500", full:false})
   p hello
   .hp_pt100
   div
@@ -23,9 +22,10 @@ block content
 
   div
     +picture({
-      pc:"pc.jpg",
-      retina:"pc@2x.jpg",
-      sp:"sp.jpg",
-      alt:"picture",
+      pc: "pc.jpg",
+      retina: "pc@2x.jpg",
+      sp: "sp.jpg",
+      alt: "picture",
+      full: false
     })
   +modal()
