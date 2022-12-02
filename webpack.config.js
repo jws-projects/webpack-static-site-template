@@ -410,7 +410,6 @@ module.exports = {
           minifyCSS: true,
           minifyJS: true,
           removeComments: true,
-          sortAttributes: true,
         },
       }),
     ],

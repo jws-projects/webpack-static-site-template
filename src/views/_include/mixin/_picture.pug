@@ -49,7 +49,7 @@ mixin picture(options)
       class="lazyload"
       src="data:image/gif;base64,R0lGODlhAQABAGAAACH5BAEKAP8ALAAAAAABAAEAAAgEAP8FBAA7"
       data-src=`${img}${options.pc}${webp}`
-      data-aspectratio=`${options.pcw}/${options.pch}`
+      data-aspectratio=`${pcSize.width}/${pcSize.height}`
       data-sizes="auto"
       width=pcSize.width
       height=pcSize.height

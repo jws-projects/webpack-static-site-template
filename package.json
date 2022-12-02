@@ -5,7 +5,7 @@
   "author": "JWS",
   "scripts": {
     "build": "npx webpack --progress --node-env=production",
-    "build_ex": "npx webpack --progress --node-env=production && html-beautify public/**/*.html && css-beautify public/**/*.css && js-beautify public/**/*.js",
+    "build_ex": "npx webpack --progress --node-env=production && html-beautify public/**/*.html",
     "dev": "npx webpack serve --host local-ip --progress --node-env=development",
     "start": "npm run dev"
   },
