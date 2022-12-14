@@ -1,4 +1,4 @@
-/* destyle.css v3.0.2 | MIT License | https://github.com/nicolas-cusan/destyle.css */
+/*! destyle.css v4.0.0 | MIT License | https://github.com/nicolas-cusan/destyle.css */
 
 /* Reset box-model and set borders */
 /* ============================================ */
@@ -242,34 +242,20 @@ textarea {
 }
 
 /**
- * Reset radio and checkbox appearance to preserve their look in iOS.
- */
-
-[type='checkbox'] {
-  -webkit-appearance: checkbox;
-  appearance: checkbox;
-}
-
-[type='radio'] {
-  -webkit-appearance: radio;
-  appearance: radio;
-}
-
-/**
  * Correct cursors for clickable elements.
  */
 
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+[type="button"],
+[type="reset"],
+[type="submit"] {
   cursor: pointer;
 }
 
 button:disabled,
-[type='button']:disabled,
-[type='reset']:disabled,
-[type='submit']:disabled {
+[type="button"]:disabled,
+[type="reset"]:disabled,
+[type="submit"]:disabled {
   cursor: default;
 }
 
@@ -327,16 +313,16 @@ textarea {
  * Correct the cursor style of increment and decrement buttons in Chrome.
  */
 
-[type='number']::-webkit-inner-spin-button,
-[type='number']::-webkit-outer-spin-button {
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
 
 /**
- * 1. Correct the outline style in Safari.
+ * Correct the outline style in Safari.
  */
 
-[type='search'] {
+[type="search"] {
   outline-offset: -2px; /* 1 */
 }
 
@@ -344,8 +330,8 @@ textarea {
  * Remove the inner padding in Chrome and Safari on macOS.
  */
 
-[type='search']::-webkit-search-decoration {
-  appearance: none;
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
 }
 
 /**
@@ -354,8 +340,15 @@ textarea {
  */
 
 ::-webkit-file-upload-button {
-  appearance: button; /* 1 */
+  -webkit-appearance: button; /* 1 */
   font: inherit; /* 2 */
+}
+
+/**
+ * Fix appearance for Firefox
+ */
+[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /**
